@@ -20,7 +20,7 @@ x_offsets = [
 
 function dict_get(dict, key) = dict[search(key, dict)[0]][1];
 
-module cherry(width, row, colour=undef) {
+module cherry(width, row, cap=undef, colour=undef) {
   stl_row = 5 - row;
   dx = (width == 6.25 && row == 4) ? 11.5 : dict_get(x_offsets, width);
   dy = (width == 6.25) ? ((row == 4) ? -100 : 0) : -(4 - row)*25;
@@ -28,10 +28,15 @@ module cherry(width, row, colour=undef) {
     translate([dx, dy, 0])
       rotate([90, 0, 0])
         import(str("cherry-mx-keycaps/STL/1x", width, " R", stl_row, ".stl"));
+  translate([-5, 1.5, 8.4]) linear_extrude(0.4) text(cap,size=4);
 }
 
 
 // Example usage
-for (row = [1:4])
+row=1;
   translate([0, 9.5 + (2 - row) * 19, 0])
-    cherry(1, row);
+    cherry(1, 2, "Cue");
+
+row2=2;
+  translate([0, 9.5 + (2 - row2) * 19, 0])
+    cherry(1, 2, "Bk");
